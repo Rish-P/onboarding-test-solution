@@ -52,6 +52,13 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',  # Use session authentication
+        'rest_framework.authentication.TokenAuthentication',   # Use token authentication
+    ),
+}
+
 ROOT_URLCONF = "onboarding_test.urls"
 
 TEMPLATES = [
