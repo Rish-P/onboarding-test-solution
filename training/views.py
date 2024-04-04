@@ -1,7 +1,8 @@
 from django.shortcuts import render
-from .models import Activity, UserActivity,UserActivityLog
+from .models import Activity, UserActivity,UserActivityLog, do_training
 from django.contrib.auth.models import User
 from .serializers import UserActivitySerializer,UserActivityLogSerializer, ActivitySerializer, UserSerializer, UserRegistrationSerializer
+from rest_framework.exceptions import MethodNotAllowed
 from rest_framework import serializers, viewsets, permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -15,9 +16,17 @@ class UserActivityViewSet(viewsets.ModelViewSet):
     queryset = UserActivity.objects.all()
     serializer_class = UserActivitySerializer
 
+    def perform_create(self, serializer):
+        instance = serializer.save()
+        # Create and save UserActivityLog instance
+        UserActivityLog.objects.create(user_activity=instance, score = do_training())
+
 class UserActivityLogViewSet(viewsets.ModelViewSet):
     queryset = UserActivityLog.objects.all()
     serializer_class = UserActivityLogSerializer
+
+    def create(self, request, *args, **kwargs):
+        raise MethodNotAllowed("POST")
 
 class UserInfoView(APIView):
     permission_classes = [permissions.IsAuthenticated]
