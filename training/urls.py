@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import UserActivityViewSet,UserActivityLogViewSet, ActivityViewSet, UserInfoView, UserViewSet, UserRegistrationView
+from .views import UserActivityViewSet,UserActivityLogViewSet, ActivityViewSet, UserInfoView, UserViewSet, UserRegistrationView, TaskInfo
 
 router = DefaultRouter()
 router.register(r'activities', ActivityViewSet)
@@ -12,4 +12,5 @@ urlpatterns = [
     path('', include(router.urls)),
     path('user-info/', UserInfoView.as_view(), name='user-info'),
     path('register/', UserRegistrationView.as_view(), name='user-registration'),
+    path('task-info', TaskInfo.as_view(), name='task-info'),
 ]
